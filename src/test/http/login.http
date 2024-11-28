@@ -1,0 +1,11 @@
+POST http://localhost:8080/api/laboratory/login
+Content-Type: application/json
+
+{
+  "account":"1",
+  "password":"1"
+}
+###
+
+GET http://localhost:8080/api/laboratory/teacher/courses
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6InRlYWNoZXIiLCJleHAiOjE3MzUzODk4MTgsImlhdCI6MTczMjc5Nzk3N30._gu-12EsRMyuuf0JR1JCBKYtDQL97BuKaVSMbctYzqE
