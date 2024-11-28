@@ -20,4 +20,8 @@ public class TeacherController {
     public ResultVO courseList(@RequestAttribute("uid") String tid){
         return ResultVO.success(Map.of("courses",teacherService.courseList(tid)));
     }
+    @GetMapping("courses/lab")
+    public ResultVO courseLab(@RequestAttribute("uid") String tid){
+        return ResultVO.success(Map.of("courses",teacherService.courseList(tid)));
+    }
 }

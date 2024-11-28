@@ -30,6 +30,8 @@ create table if not exists `course`(
     teacher_id      char(19) not null,
     teacher_name    varchar(10) not null ,
     total           tinyint unsigned not null,/*总共的课时*/
+    create_time datetime not null default current_timestamp,
+    update_time datetime not null default current_timestamp on update current_timestamp,
     index(teacher_id)
 );
 create table if not exists `reservation`(
