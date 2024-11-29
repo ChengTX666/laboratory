@@ -27,12 +27,18 @@ create table if not exists `user`(
 create table if not exists `course`(
     id              char(19) not null primary key,
     name            varchar(20) not null ,
+    type            char(4) null,/*理论课abcd，实验课efgh*/
     teacher_id      char(19) not null,
     teacher_name    varchar(10) not null ,
+    require_config  varchar(50) null ,
+    theory          json null comment '{"period","day","name","class","weeks"}',
     total           tinyint unsigned not null,/*总共的课时*/
+    reserved        tinyint unsigned not null,/*已经预约的课时*/
     create_time datetime not null default current_timestamp,
     update_time datetime not null default current_timestamp on update current_timestamp,
-    index(teacher_id)
+    index(type,teacher_id,
+        (cast(theory->>'$.period' as unsigned ) collate utf8mb4_bin),
+        (cast(theory->>'$.day' as unsigned ) collate utf8mb4_bin))
 );
 create table if not exists `reservation`(
     id              char(19) not null primary key,
