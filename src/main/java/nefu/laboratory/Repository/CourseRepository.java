@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CourseRepository extends CrudRepository<Course,String> {
-    @Query("SELECT * from course where teacher_id=:tid")
-    List<Course> findByTeacherId(String tid);
+    @Query("SELECT * from course where teacher_id=:tid and type=:type")
+    List<Course> findByTeacherIdAndType(String tid,String type);
 }

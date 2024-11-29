@@ -16,12 +16,18 @@ import java.util.Map;
 public class TeacherController {
     private final TeacherService teacherService;
 
-    @GetMapping("courses")
+    @GetMapping("index")
     public ResultVO courseList(@RequestAttribute("uid") String tid){
-        return ResultVO.success(Map.of("courses",teacherService.courseList(tid)));
+        //理论课程(已提前分好时间)
+        //实验课程(已经预约过的,从预约表里拿)
+        return ResultVO.success(Map.of(
+                "reservations",teacherService.reservationList(tid),
+                "courseTheory",teacherService.courseTheory(tid)
+                ));
     }
     @GetMapping("courses/lab")
     public ResultVO courseLab(@RequestAttribute("uid") String tid){
-        return ResultVO.success(Map.of("courses",teacherService.courseList(tid)));
+        return ResultVO.success(Map.of("courseLab",teacherService.courseLab(tid)));
     }
+
 }

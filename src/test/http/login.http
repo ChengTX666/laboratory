@@ -7,5 +7,10 @@ Content-Type: application/json
 }
 ###
 
-GET http://localhost:8080/api/laboratory/teacher/courses
+GET http://localhost:8080/api/laboratory/teacher/index
 token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6InRlYWNoZXIiLCJleHAiOjE3MzUzODk4MTgsImlhdCI6MTczMjc5Nzk3N30._gu-12EsRMyuuf0JR1JCBKYtDQL97BuKaVSMbctYzqE
+
+###拿实验课数据
+GET http://localhost:8080/api/laboratory/teacher/courses/lab
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6InRlYWNoZXIiLCJleHAiOjE3MzUzODk4MTgsImlhdCI6MTczMjc5Nzk3N30._gu-12EsRMyuuf0JR1JCBKYtDQL97BuKaVSMbctYzqE
+

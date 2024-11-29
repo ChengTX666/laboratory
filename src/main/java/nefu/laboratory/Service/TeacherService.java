@@ -15,10 +15,15 @@ public class TeacherService {
     private final ReservationRepository reservationRepository;
     private final CourseRepository courseRepository;
 
-    public List<Reservation> courseList(String tid){
+    public List<Reservation> reservationList(String tid){
         return reservationRepository.findByTeacherId(tid);
     }
-    public List<Course> courseLab(String tid){
-        return courseRepository.findByTeacherId(tid);
+    public List<Course> courseTheory(String tid) {
+        return courseRepository.findByTeacherIdAndType(tid,"abc1");
     }
+
+    public List<Course> courseLab(String tid){
+        return courseRepository.findByTeacherIdAndType(tid,"def2");
+    }
+
 }
