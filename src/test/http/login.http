@@ -14,3 +14,11 @@ token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6InRlYWNoZXIi
 GET http://localhost:8080/api/laboratory/teacher/courses/lab
 token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6InRlYWNoZXIiLCJleHAiOjE3MzUzODk4MTgsImlhdCI6MTczMjc5Nzk3N30._gu-12EsRMyuuf0JR1JCBKYtDQL97BuKaVSMbctYzqE
 
+###查看所有实验课状态
+GET http://localhost:8080/api/laboratory/teacher/labs
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6InRlYWNoZXIiLCJleHAiOjE3MzUzODk4MTgsImlhdCI6MTczMjc5Nzk3N30._gu-12EsRMyuuf0JR1JCBKYtDQL97BuKaVSMbctYzqE
+
+
+###查看实验室
+GET http://localhost:8080/api/laboratory/teacher/labs/1
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6InRlYWNoZXIiLCJleHAiOjE3MzUzODk4MTgsImlhdCI6MTczMjc5Nzk3N30._gu-12EsRMyuuf0JR1JCBKYtDQL97BuKaVSMbctYzqE

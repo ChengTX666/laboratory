@@ -3,10 +3,7 @@ package nefu.laboratory.Controller;
 import lombok.RequiredArgsConstructor;
 import nefu.laboratory.Service.TeacherService;
 import nefu.laboratory.dto.ResultVO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -30,4 +27,16 @@ public class TeacherController {
         return ResultVO.success(Map.of("courseLab",teacherService.courseLab(tid)));
     }
 
+    //跳转到选择实验室阶段
+    @GetMapping("labs")
+    public ResultVO labList(){
+        return ResultVO.success(Map.of("labList",teacherService.labList()));
+    }
+    //点进去实验室,查看具体4×7格的时间表 取出预约记录
+    @GetMapping("labs/{lid}")
+    public ResultVO lab(@PathVariable("lid") String lid){
+        return ResultVO.success(Map.of(
+                "reservationLab",teacherService.reservationLab(lid)
+        ));
+    }
 }

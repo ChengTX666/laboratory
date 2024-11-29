@@ -20,12 +20,3 @@ public class Laboratory {
     private int capacity;
     private String manager;
 }
-/*
-* create table if not exists `laboratory`(
-    id         char(19) not null primary key,
-    name       varchar(20) not null ,
-    config     varchar(100) not null ,
-    capacity   tinyint unsigned not null,
-    manager    json not null comment '{["id":,"name":,"phone":]}'
-);
-* */

@@ -12,4 +12,7 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
 
     @Query("SELECT * from reservation where teacher_id=:tid")
     List<Reservation> findByTeacherId(String tid);
+
+    @Query("SELECT * from reservation where laboratory_id=:lid")
+    List<Reservation> findByLaboratoryId(String lid);
 }
