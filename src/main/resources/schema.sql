@@ -1,14 +1,18 @@
 create table if not exists `laboratory`(
     id         char(19) not null primary key,
     name       varchar(20) not null ,
+    location   varchar(20) not null default '丹青',
     config     varchar(100) not null ,
     capacity   tinyint unsigned not null,
-    manager    json not null comment '{["id":,"name":,"phone":]}'
+    status     varchar(10) not null default '开放',/*增加状态字段*/
+    manager    json not null comment '{"name":,"phone":}'/* 改为了单个对象 取消id*/,
+    index (location,capacity)/*查询哪个楼时按大小排序*/
 );
 create table if not exists `notice`(
     id         char(19) not null primary key,
     title      varchar(50) not null,
     content    text not null ,
+    publisher  varchar(20) null ,/* 添加了发布者名字 */
     create_time datetime not null default current_timestamp,
     update_time datetime not null default current_timestamp on update current_timestamp
 );
@@ -31,7 +35,8 @@ create table if not exists `course`(
     teacher_id      char(19) not null,
     teacher_name    varchar(10) not null ,
     require_config  varchar(50) null ,
-    theory          json null comment '{"period","day","weeks","class"}',
+    require_number  tinyint unsigned not null ,/*添加课程需要的人数*/
+    theory          json null comment '[{"period","day","weeks","class"}]',
     total           tinyint unsigned not null,/*总共的课时*/
     reserved        tinyint unsigned not null,/*已经预约的课时*/
     create_time datetime not null default current_timestamp,

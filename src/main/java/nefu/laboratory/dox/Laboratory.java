@@ -1,4 +1,4 @@
-package nefu.laboratory.Dox;
+package nefu.laboratory.dox;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,9 @@ public class Laboratory {
     @Id
     private String id;
     private String name;
+    private String location;
     private String config;
     private int capacity;
+    private String status;
     private String manager;
 }

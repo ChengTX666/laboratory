@@ -1,0 +1,12 @@
+PATCH http://localhost:8080/api/laboratory/admin/labs/1
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6InRlYWNoZXIiLCJleHAiOjE3MzUzODk4MTgsImlhdCI6MTczMjc5Nzk3N30._gu-12EsRMyuuf0JR1JCBKYtDQL97BuKaVSMbctYzqE
+
+"测试成功"
+
+
+###获取所有实验室
+GET http://localhost:8080/api/laboratory/admin/labs
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6InRlYWNoZXIiLCJleHAiOjE3MzUzODk4MTgsImlhdCI6MTczMjc5Nzk3N30._gu-12EsRMyuuf0JR1JCBKYtDQL97BuKaVSMbctYzqE
+
+###

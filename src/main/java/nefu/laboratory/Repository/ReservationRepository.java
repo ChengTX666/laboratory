@@ -1,6 +1,6 @@
 package nefu.laboratory.Repository;
 
-import nefu.laboratory.Dox.Reservation;
+import nefu.laboratory.dox.Reservation;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

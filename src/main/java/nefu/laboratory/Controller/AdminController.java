@@ -4,13 +4,29 @@ package nefu.laboratory.Controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nefu.laboratory.Service.AdminService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import nefu.laboratory.dto.ResultVO;
+import nefu.laboratory.dto.StatusDTO;
+import org.springframework.web.bind.annotation.*;
 
-@Slf4j
+import java.util.Map;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/laboratory/admin/")
 public class AdminController {
     private final AdminService adminService;
+
+    //实验室增删改查
+    @GetMapping("labs")
+    public ResultVO labList(){
+        return ResultVO.success(Map.of("labList",adminService.listLab()));
+    }
+
+    @PatchMapping("labs/{id}")
+    public ResultVO updateStatus(@PathVariable("id") String lid,@RequestBody StatusDTO statusDTO){
+        adminService.updateLabStatus(lid,statusDTO.getStatus());
+        return ResultVO.ok();
+    }
+
+    //创建用户,重置用户密码
 }

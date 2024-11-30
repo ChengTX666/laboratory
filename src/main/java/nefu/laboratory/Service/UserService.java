@@ -1,7 +1,7 @@
 package nefu.laboratory.Service;
 
 import lombok.RequiredArgsConstructor;
-import nefu.laboratory.Dox.User;
+import nefu.laboratory.dox.User;
 import nefu.laboratory.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package nefu.laboratory.Dox;
+package nefu.laboratory.dox;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

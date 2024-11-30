@@ -1,9 +1,9 @@
 package nefu.laboratory.Service;
 
 import lombok.RequiredArgsConstructor;
-import nefu.laboratory.Dox.Course;
-import nefu.laboratory.Dox.Laboratory;
-import nefu.laboratory.Dox.Reservation;
+import nefu.laboratory.dox.Course;
+import nefu.laboratory.dox.Laboratory;
+import nefu.laboratory.dox.Reservation;
 import nefu.laboratory.Repository.CourseRepository;
 import nefu.laboratory.Repository.LaboratoryRepository;
 import nefu.laboratory.Repository.ReservationRepository;
