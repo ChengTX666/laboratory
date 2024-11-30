@@ -22,11 +22,19 @@ public class AdminController {
         return ResultVO.success(Map.of("labList",adminService.listLab()));
     }
 
+    //根据id改状态
     @PatchMapping("labs/{id}")
     public ResultVO updateStatus(@PathVariable("id") String lid,@RequestBody StatusDTO statusDTO){
         adminService.updateLabStatus(lid,statusDTO.getStatus());
         return ResultVO.ok();
     }
+    //删除
+    @DeleteMapping("labs/{id}")
+    public ResultVO deleteLab(@PathVariable("id") String lid){
+        adminService.deleteLab(lid);
+        return ResultVO.ok();
+    }
+
 
     //创建用户,重置用户密码
 }

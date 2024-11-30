@@ -18,4 +18,7 @@ public interface LaboratoryRepository extends CrudRepository<Laboratory,String> 
     @Query("update laboratory l set l.status=:status where l.id=:lid")
     void updateStatusById(String lid,String status);
 
+    @Modifying
+    @Query("DELETE from laboratory where id=:lid")
+    void deleteById(String lid);
 }
