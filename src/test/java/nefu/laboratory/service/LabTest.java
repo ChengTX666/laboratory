@@ -21,6 +21,10 @@ public class LabTest {
     void test01(){
         List<Laboratory> laboratories = adminService.listLab();
         log.info("{}",laboratories);
+    }
+    @Test
+    void testWeeks(){
+
 
     }
 }

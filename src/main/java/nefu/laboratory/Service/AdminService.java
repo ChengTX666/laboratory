@@ -48,6 +48,7 @@ public class AdminService {
         laboratoryRepository.deleteById(lid);
     }
 
+
     //初始化密码
     public User reset(String account){
         return userRepository.updateByAccount(account,passwordEncoder.encode(account));

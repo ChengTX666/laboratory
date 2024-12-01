@@ -21,5 +21,6 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
     @Query("SELECT count(*) from reservation where laboratory_id=:lid")
     int countByLaboratoryId(String lid);
 
-
+    @Query("SELECT weeks from reservation where period=:period and day=:day")
+    List<String> findByPeriodAndDay(int period,int day);
 }
