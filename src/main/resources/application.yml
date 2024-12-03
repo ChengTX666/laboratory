@@ -3,7 +3,13 @@ spring:
     url: 'jdbc:mysql://120.46.159.231:3306/2022212808?createDatabaseIfNotExist=true'
     username: 2022212808
     password: 2022212808
-
+  data:
+    redis:
+      host: 120.46.159.231
+      port: 6379
+      username: default
+      password: 2046
+      database: 9
 
 
 my:

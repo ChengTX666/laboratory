@@ -24,9 +24,7 @@ public class Course {
     private String requireConfig;
     private String teacherId;
     private String teacherName;
-    private String theory;//json数据
     private int total;
-    private int reserved;
     @JsonIgnore
     @ReadOnlyProperty
     private LocalDateTime createTime;
