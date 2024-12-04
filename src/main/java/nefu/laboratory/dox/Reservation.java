@@ -27,7 +27,7 @@ public class Reservation {
     private String courseName;
     private int period;
     private int day;
-    private String weeks;
+    private int week;
     @JsonIgnore
     @ReadOnlyProperty
     private LocalDateTime createTime;
