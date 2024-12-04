@@ -19,7 +19,5 @@ public class test {
         Set<String> collect1 = Arrays.stream(weeks1.split(",")).collect(Collectors.toSet());
         System.out.println(Collections.disjoint(collect, collect1));
 
-
-
     }
 }

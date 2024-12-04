@@ -9,9 +9,14 @@ import nefu.laboratory.Repository.CourseRepository;
 import nefu.laboratory.Repository.LaboratoryRepository;
 import nefu.laboratory.Repository.ReservationRepository;
 import nefu.laboratory.exception.XException;
+import org.redisson.api.RBucket;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.StringCodec;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,19 +26,21 @@ public class TeacherService {
     private final ReservationRepository reservationRepository;
     private final CourseRepository courseRepository;
     private final LaboratoryRepository laboratoryRepository;
+    private final RedissonClient redissonClient;
 
     //老师id
-    public List<Reservation> reservationList(String tid){
+    public List<Reservation> reservationList(String tid) {
         return reservationRepository.findByTeacherId(tid);
     }
+
     //理论课
     public List<Course> courseTheory(String tid) {
-        return courseRepository.findByTeacherIdAndType(tid,"abc1");
+        return courseRepository.findByTeacherIdAndType(tid, "abc1");
     }
 
     //实验课
-    public List<Course> courseLab(String tid){
-        return courseRepository.findByTeacherIdAndType(tid,"def2");
+    public List<Course> courseLab(String tid) {
+        return courseRepository.findByTeacherIdAndType(tid, "def2");
     }
 
     //所有实验室
@@ -42,26 +49,27 @@ public class TeacherService {
     }
 
     //查询当前实验室相关的预约
-    public List<Reservation> reservationLab(String lid){
+    public List<Reservation> reservationLab(String lid) {
         return reservationRepository.findByLaboratoryId(lid);
     }
     //预约！！！！
-    public Reservation addReservation(Reservation newReservation){
-        int period=newReservation.getPeriod();
-        int day=newReservation.getDay();
-        Set<String> request = Arrays.stream(newReservation.getWeeks().split(",")).collect(Collectors.toSet());
-        //判断有无冲突
-        reservationRepository.findByPeriodAndDay(period, day).forEach(
-                weeks->{
-                    Set<String> set = Arrays.stream(weeks.split(",")).collect(Collectors.toSet());
-                    if(!Collections.disjoint(set,request)){
-                        throw XException.builder()
-                                .codeN(404)
-                                .message("该时间段已有预约!")
-                                .build();
-                    }
-                }
-        );
-        return reservationRepository.save(newReservation);
-    }
+//    public Reservation addReservation(Reservation newReservation){
+//        int period=newReservation.getPeriod();
+//        int day=newReservation.getDay();
+//        Set<String> request = Arrays.stream(newReservation.getWeeks().split(",")).collect(Collectors.toSet());
+//        //判断有无冲突
+//        reservationRepository.findByPeriodAndDay(period, day).forEach(
+//                weeks->{
+//                    Set<String> set = Arrays.stream(weeks.split(",")).collect(Collectors.toSet());
+//                    if(!Collections.disjoint(set,request)){
+//                        throw XException.builder()
+//                                .codeN(404)
+//                                .message("该时间段已有预约!")
+//                                .build();
+//                    }
+//                }
+//        );
+//        return reservationRepository.save(newReservation);
+//    }
+
 }
