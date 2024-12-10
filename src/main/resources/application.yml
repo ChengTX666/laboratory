@@ -10,7 +10,13 @@ spring:
       username: default
       password: 2046
       database: 9
-
-
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: springfox swagger 3.0整合Demo
+  try-host: http://localhost:${server.port}
 my:
   key: abc
+server:
+  port: 8080
