@@ -1,5 +1,6 @@
 package nefu.laboratory.Controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import nefu.laboratory.Service.TeacherService;
 import nefu.laboratory.dto.ResultVO;
@@ -22,15 +23,16 @@ public class TeacherController {
                 "courseTheory",teacherService.courseTheory(tid)
                 ));
     }
+    @Operation(summary = "理论课")
     @GetMapping("courses/theory")
     public ResultVO courseTheory(@RequestAttribute("uid") String tid){
         return ResultVO.success(Map.of("courseTheory",teacherService.courseTheory(tid)));
     }
+    @Operation(summary = "实验课")
     @GetMapping("courses/lab")
     public ResultVO courseLab(@RequestAttribute("uid") String tid){
         return ResultVO.success(Map.of("courseLab",teacherService.courseLab(tid)));
     }
-
     //跳转到选择实验室阶段
     @GetMapping("labs")
     public ResultVO labList(){
