@@ -22,8 +22,6 @@ public class AdminService {
     private final UserRepository userRepository;
     private final LaboratoryRepository laboratoryRepository;
     private final PasswordEncoder passwordEncoder;
-
-
     //查询所有实验室
     public List<Laboratory> listLab(){
         return laboratoryRepository.list();
@@ -47,8 +45,6 @@ public class AdminService {
         }
         laboratoryRepository.deleteById(lid);
     }
-
-
     //初始化密码
     public User reset(String account){
         return userRepository.updateByAccount(account,passwordEncoder.encode(account));
