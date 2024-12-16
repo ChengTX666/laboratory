@@ -2,6 +2,7 @@ package nefu.laboratory.Controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class LoginController {
     private final JWTComponent jwtComponent;
 
 
+    @Operation(summary = "登录",description = "成功后返回user对象,header返回token")
     @PostMapping("login")
     public ResultVO login(@RequestBody Login login, HttpServletResponse resp) {
 
