@@ -8,16 +8,11 @@ import nefu.laboratory.dox.Reservation;
 import nefu.laboratory.Repository.CourseRepository;
 import nefu.laboratory.Repository.LaboratoryRepository;
 import nefu.laboratory.Repository.ReservationRepository;
-import nefu.laboratory.exception.XException;
-import org.redisson.api.RBucket;
-import org.redisson.api.RLock;
+import nefu.laboratory.dto.WeeksDTO;
 import org.redisson.api.RedissonClient;
-import org.redisson.client.codec.StringCodec;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,13 +24,8 @@ public class TeacherService {
     private final RedissonClient redissonClient;
 
     //老师id
-    public List<Reservation> reservationList(String tid) {
+    public List<Reservation> reservationTid(String tid) {
         return reservationRepository.findByTeacherId(tid);
-    }
-
-    //理论课
-    public List<Course> courseTheory(String tid) {
-        return courseRepository.findByTeacherIdAndType(tid, "abc1");
     }
 
     //实验课
@@ -47,11 +37,46 @@ public class TeacherService {
     public List<Laboratory> labList() {
         return laboratoryRepository.list();
     }
+    //所有实验室对应的预约个数
+    public Map<String,Integer> countMap(){
+        return reservationRepository.countByLaboratoryId();
+    }
 
     //查询当前实验室相关的预约
     public List<Reservation> reservationLab(String lid) {
+
         return reservationRepository.findByLaboratoryId(lid);
     }
+    //根据某一天查询空闲的教室
+
+    //添加新预约
+    public void addReservations(WeeksDTO weeksDTO){
+        for (int week:weeksDTO.getWeeks()){
+            Reservation reservation = Reservation.builder()
+                    .teacherId(weeksDTO.getTeacherId())
+                    .teacherName(weeksDTO.getTeacherName())
+                    .courseId(weeksDTO.getCourseId())
+                    .courseName(weeksDTO.getCourseName())
+                    .laboratoryId(weeksDTO.getLaboratoryId())
+                    .laboratoryName(weeksDTO.getLaboratoryName())
+                    .period(weeksDTO.getPeriod())
+                    .day(weeksDTO.getDay())
+                    .week(week)
+                    .build();
+            reservationRepository.save(reservation);
+        }
+    }
+    //删除预约
+    public void delReservation(String id,String tid){
+        reservationRepository.deleteByIdAndTeacherId(id,tid);
+    }
+
+
+
+
+
+
+
     //预约！！！！
 //    public Reservation addReservation(Reservation newReservation){
 //        int period=newReservation.getPeriod();

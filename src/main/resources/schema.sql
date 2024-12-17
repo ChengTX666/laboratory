@@ -1,15 +1,14 @@
 create table if not exists `laboratory`
 (
     id         char(19) not null primary key,
-    name       varchar(20) not null ,
-    location   varchar(20) not null default '丹青',
+    name       varchar(20) not null comment '丹青901',
     config     varchar(100) not null ,
     capacity   tinyint unsigned not null,
     status     varchar(10) not null default '开放',/*增加状态字段*/
     manager    json not null comment '{"name":,"phone":}'/* 改为了单个对象 取消id*/,
     create_time datetime not null default current_timestamp,
     update_time datetime not null default current_timestamp on update current_timestamp,
-    index (location,capacity)/*查询哪个楼时按大小排序*/
+    index (name,capacity)/*查询哪个楼时按大小排序*/
 );
 create table if not exists `notice`
 (
@@ -21,7 +20,7 @@ create table if not exists `notice`
     update_time datetime not null default current_timestamp on update current_timestamp
 );
 
-create table if not exists `user`
+create table if not exists `lab_user`
 (
     id          char(19) not null primary key,
     name        varchar(10) not null ,
@@ -52,6 +51,7 @@ create table if not exists `reservation`
 (
     id              char(19) not null primary key,
     teacher_id      char(19) not null,
+    teacher_name    varchar(10) null,
     laboratory_id   char(19) not null ,
     laboratory_name varchar(20)not null ,
     course_id       char(19)not null,
@@ -65,6 +65,5 @@ create table if not exists `reservation`
     unique (laboratory_id,`period`,day,week),/* 点击实验室准备选课,查看这个实验室所有的预约记录*/
     index(teacher_id,course_id)/*初始老师看自己课表:看自己预约过的记录和记录具体的时间*/
 );
-explain
-select * from reservation where laboratory_id='1' and  day=1 and period=1 and week=1
+
 

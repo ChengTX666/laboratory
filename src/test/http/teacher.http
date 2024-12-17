@@ -1,0 +1,16 @@
+POST localhost:8080/api/laboratory/teacher/reservations
+Content-Type: application/json
+
+{
+  "teacherId": "11",
+  "teacherName": "吴可凡",
+  "laboratoryId": "4166666",
+  "laboratoryName": "丹青416",
+  "courseId": "4166666",
+  "courseName": "哈工大优秀课程",
+  "period": 1,
+  "day": 1,
+  "weeks": [
+    16,17,18
+  ]
+}
