@@ -15,12 +15,14 @@ public class WeeksResultSetExtractor implements ResultSetExtractor<WeeksDTO> {
         List<Integer> weeks = new LinkedList<>();
         WeeksDTO.WeeksDTOBuilder builder = WeeksDTO.builder();
         if (rs.next()) {
-            builder.id(rs.getString("id"))
+//            .id(rs.getString("id"))
+            builder
                     .courseName(rs.getString("course_name"))
                     .courseId(rs.getString("course_id"))
                     .laboratoryId(rs.getString("laboratory_id"))
                     .laboratoryName(rs.getString("laboratory_name"))
                     .teacherId(rs.getString("teacher_id"))
+                    .teacherName(rs.getString("teacher_name"))
                     .day(rs.getInt("day"))
                     .period(rs.getInt("period"));
 
