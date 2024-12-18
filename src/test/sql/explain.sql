@@ -25,12 +25,23 @@ create table if not exists temp
 
 select * from laboratory,temp;
 
-select group_concat() from laboratory l
+select * from laboratory l
 cross join temp t
+left join reservation r
+ on l.id = r.laboratory_id and t.period=r.period and week=1 and day=1
+where laboratory_id is null;
 
+explain
+select  l.id,l.name,group_concat(t.`period`) as free_period from laboratory l
+cross join temp t
 left join reservation r
 on l.id = r.laboratory_id and t.period=r.period and week=1 and day=1
-where laboratory_id is null ;
+where laboratory_id is null
+group by l.id;
+
+
+
+
 #拿老师所有的预约记录生成时间表 ref
     explain
     select * from reservation where teacher_id='1';
@@ -44,3 +55,12 @@ where laboratory_id is null ;
     explain
     select * from reservation where laboratory_id='1';
 #提交预约
+
+#查每个实验室的预约个数
+explain
+select laboratory_id,count(*) from reservation group by laboratory_id;
+
+select group_concat(period,day,week separator ',') from reservation group by laboratory_id;
+
+select group_concat(id) from reservation group by laboratory_id;
+select count(*) from reservation group by laboratory_id;
