@@ -3,12 +3,10 @@ package nefu.laboratory.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nefu.laboratory.Service.AdminService;
 import nefu.laboratory.dox.Laboratory;
 import nefu.laboratory.dox.User;
 import nefu.laboratory.dto.ResultVO;
-import nefu.laboratory.dto.StatusDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +18,8 @@ import java.util.Map;
 public class AdminController {
     private final AdminService adminService;
 
+
+
     //实验室增删改查
     @GetMapping("labs")
     public ResultVO labList(){
@@ -28,8 +28,8 @@ public class AdminController {
 
     //根据id改状态
     @PatchMapping("labs/{lid}")//?????????????前端传递的是什么
-    public ResultVO updateStatus(@PathVariable("lid") String lid,@RequestBody StatusDTO statusDTO){
-        adminService.updateLabStatus(lid,statusDTO.getStatus());
+    public ResultVO updateStatus(@PathVariable("lid") String lid,@RequestBody Laboratory laboratory){
+        adminService.updateLabStatus(lid,laboratory.getStatus());
         return ResultVO.ok();
     }
     //删除

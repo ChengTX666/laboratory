@@ -12,7 +12,7 @@ select * from course where teacher_id='1' and type='abc1' ;
 explain
 select * from laboratory l
 left join reservation r
-on l.id=r.laboratory_id and week=1 and day=1 and period=1
+on l.id=r.laboratory_id and week=1 and day=1
 where laboratory_id is null ;
 
 /*某一天都有空，根据周 天查实验室和节次*/
