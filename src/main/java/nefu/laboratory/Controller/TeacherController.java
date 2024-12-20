@@ -2,6 +2,7 @@ package nefu.laboratory.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import nefu.laboratory.Repository.LaboratoryRepository;
 import nefu.laboratory.Service.TeacherService;
 import nefu.laboratory.dto.ResultVO;
 import nefu.laboratory.dto.WeeksDTO;
@@ -14,7 +15,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TeacherController {
     private final TeacherService teacherService;
-
     //登录进去拿预约记录形成日程表
     @Operation(summary = "拿老师所有预约记录形成日程表")
     @GetMapping("reservations")
@@ -23,6 +23,19 @@ public class TeacherController {
         return ResultVO.success(Map.of(
                 "reservations",teacherService.reservationTid(tid)
                 ));
+    }
+    //快速查询
+    @Operation(summary = "快速查询")
+    @GetMapping("reservation/fast")
+    public ResultVO findFree(int week, int day){
+        return ResultVO.success(Map.of("free",teacherService.findFree(week,day)));
+    }
+    //添加新预约
+    @Operation(summary = "添加预约记录")
+    @PostMapping("reservations")
+    public ResultVO addReservations(@RequestBody WeeksDTO weeksDTO){
+        teacherService.addReservations(weeksDTO);
+        return ResultVO.success(Map.of("weeks",weeksDTO));
     }
 
     @Operation(summary = "取消预约(判断是否是自己的预约记录)")
@@ -55,11 +68,6 @@ public class TeacherController {
                 "reservationLab",teacherService.reservationLab(lid)
         ));
     }
-    //添加新预约
-    @Operation(summary = "添加预约记录")
-    @PostMapping("reservations")
-    public ResultVO addReservations(@RequestBody WeeksDTO weeksDTO){
-        teacherService.addReservations(weeksDTO);
-        return ResultVO.success(Map.of("weeks",weeksDTO));
-    }
+
+
 }

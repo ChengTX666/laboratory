@@ -8,6 +8,7 @@ import nefu.laboratory.dox.Reservation;
 import nefu.laboratory.Repository.CourseRepository;
 import nefu.laboratory.Repository.LaboratoryRepository;
 import nefu.laboratory.Repository.ReservationRepository;
+import nefu.laboratory.dto.FreeDTO;
 import nefu.laboratory.dto.WeeksDTO;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,9 @@ public class TeacherService {
         return reservationRepository.findByLaboratoryId(lid);
     }
     //根据某一天查询空闲的教室
-
+    public List<FreeDTO> findFree(int week,int day){
+        return laboratoryRepository.findFree(week,day);
+    }
     //添加新预约
     public void addReservations(WeeksDTO weeksDTO){
         for (int week:weeksDTO.getWeeks()){
@@ -68,7 +71,9 @@ public class TeacherService {
     }
     //删除预约
     public void delReservation(String id,String tid){
-        reservationRepository.deleteByIdAndTeacherId(id,tid);
+        Reservation r = reservationRepository.find(id);
+        if(r.getTeacherId().equals(tid)){
+        reservationRepository.deleteByIdAndTeacherId(id,tid);}
     }
 
 
