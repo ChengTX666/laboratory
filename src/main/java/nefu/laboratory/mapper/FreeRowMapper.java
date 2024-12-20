@@ -12,10 +12,11 @@ import java.util.List;
 public class FreeRowMapper implements RowMapper<FreeDTO> {
     @Override
     public FreeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-        FreeDTO.builder()
-                .id(rs.getString("l.id"))
-                .name(rs.getString("l.name"))
-                .period(rs.getObject("free_period"),new TypE<List<Integer>(){})
-                .build()
+        FreeDTO.FreeDTOBuilder builder = FreeDTO.builder();
+        builder.laboratoryId(rs.getString("id"))
+                .laboratoryName(rs.getString("name"))
+                .freePeriods(rs.getString("free_periods"));
+
+        return builder.build();
     }
 }

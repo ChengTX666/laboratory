@@ -13,9 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class FreeDTO {
-    private String id;
-    private String name;
-    private int week;
-    private int day;
-    private List<Integer> period;
+    private String laboratoryId;
+    private String laboratoryName;
+    private String freePeriods;
 }
