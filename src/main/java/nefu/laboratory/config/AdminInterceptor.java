@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import nefu.laboratory.component.JWTComponent;
 import nefu.laboratory.dox.User;
 import nefu.laboratory.dto.Code;
-import nefu.laboratory.exception.XException;
+import nefu.laboratory.dto.exception.XException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 @Component

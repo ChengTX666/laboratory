@@ -21,6 +21,7 @@ public class AdminController {
 
 
     //实验室增删改查
+    //得到所有实验室
     @GetMapping("labs")
     public ResultVO labList(){
         return ResultVO.success(Map.of("labList",adminService.listLab()));
@@ -57,4 +58,5 @@ public class AdminController {
         return ResultVO.ok();
     }
 
+    //
 }
