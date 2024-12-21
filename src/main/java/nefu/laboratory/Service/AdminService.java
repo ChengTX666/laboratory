@@ -5,12 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nefu.laboratory.Repository.ReservationRepository;
 import nefu.laboratory.dox.Laboratory;
-import nefu.laboratory.dox.Reservation;
 import nefu.laboratory.dox.User;
 import nefu.laboratory.Repository.LaboratoryRepository;
 import nefu.laboratory.Repository.UserRepository;
 import nefu.laboratory.dto.Code;
-import nefu.laboratory.exception.XException;
+import nefu.laboratory.dto.exception.XException;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -73,4 +72,6 @@ public class AdminService {
         return userRepository.updateByAccount(account,passwordEncoder.encode(account));
     }
 
+    //公告管理
+    //查询所有公告
 }
