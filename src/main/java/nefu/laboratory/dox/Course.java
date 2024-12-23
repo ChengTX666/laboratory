@@ -16,12 +16,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class Course {
+    public static final String THEORY="abc1";
+    public static final String LAB="def2";
     @CreatedBy
     @Id
     private String id;
     private String name;
     private String type;
     private String requireConfig;
+    private int requireNumber;
     private String teacherId;
     private String teacherName;
     private int total;

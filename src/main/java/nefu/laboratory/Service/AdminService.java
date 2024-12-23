@@ -3,6 +3,7 @@ package nefu.laboratory.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nefu.laboratory.Controller.TeacherController;
 import nefu.laboratory.Repository.ReservationRepository;
 import nefu.laboratory.dox.Laboratory;
 import nefu.laboratory.dox.User;
@@ -30,6 +31,22 @@ public class AdminService {
     private final AuditorAware<String> auditorAware;
     private final JdbcTemplate jdbcTemplate;
 
+    //########################       用户管理
+    //查询所有老师
+    public List<User> teacherList(){
+       return userRepository.findByRole(User.ROLE_TEACHER);
+    }
+    //添加老师
+    public void addTeacher(User user){
+        user.setRole(User.ROLE_TEACHER);
+        userRepository.save(user);
+    }
+
+    //删除老师
+    public void delUser(String id){
+        userRepository.deleteById(id);
+    }
+
     //批量导入老师
     public void batchInsertUsers(List<User> userList) {
 
@@ -43,6 +60,7 @@ public class AdminService {
         jdbcTemplate.batchUpdate(sql, batchArgs);
     }
     //
+
 
     //查询所有实验室
     public List<Laboratory> listLab(){
