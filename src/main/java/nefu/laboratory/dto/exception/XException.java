@@ -1,4 +1,4 @@
-package nefu.laboratory.exception;
+package nefu.laboratory.dto.exception;
 
 
 import lombok.*;

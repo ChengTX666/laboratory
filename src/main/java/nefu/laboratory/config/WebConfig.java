@@ -11,13 +11,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     private final LoginInterceptor loginInterceptor;
+    private final AdminInterceptor adminInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(loginInterceptor)
-//                .addPathPatterns("/api/**")
-//                .excludePathPatterns("/api/login");
-//        registry.addInterceptor(adminInterceptor)
-//                .addPathPatterns("/api/admin/**");
+        registry.addInterceptor(loginInterceptor)
+                .addPathPatterns("/api/**")
+                .excludePathPatterns("/api/login");
+        registry.addInterceptor(adminInterceptor)
+                .addPathPatterns("/api/admin/**");
     }
 }

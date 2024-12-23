@@ -1,6 +1,7 @@
 package nefu.laboratory.service;
 
 import lombok.extern.slf4j.Slf4j;
+import nefu.laboratory.Repository.UserRepository;
 import nefu.laboratory.Service.AdminService;
 import nefu.laboratory.dox.User;
 import org.junit.jupiter.api.Test;
@@ -16,24 +17,33 @@ public class UserTest {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Test
-    void batchTest(){
-       List<User> users = new LinkedList<>();
-       users.add(User.builder()
-               .name("ctx")
-               .account("2021")
-               .password("1")
-               .role("def2")
-               .phone("13290708000")
-               .build());
-        users.add(User.builder()
-                .name("ctx")
-                .account("2022")
-                .password("2")
-                .role("def2")
-                .phone("13290708000")
-                .build());
-        adminService.batchInsertUsers(users);
+    void chuShiHua(){
+        List<User> list = userRepository.list();
+        list.forEach(user -> adminService.reset(user.getAccount()));
     }
+
+//    @Test
+//    void batchTest(){
+//       List<User> users = new LinkedList<>();
+//       users.add(User.builder()
+//               .name("ctx")
+//               .account("2021")
+//               .password("1")
+//               .role("def2")
+//               .phone("13290708000")
+//               .build());
+//        users.add(User.builder()
+//                .name("ctx")
+//                .account("2022")
+//                .password("2")
+//                .role("def2")
+//                .phone("13290708000")
+//                .build());
+//        adminService.batchInsertUsers(users);
+//    }
 
 }

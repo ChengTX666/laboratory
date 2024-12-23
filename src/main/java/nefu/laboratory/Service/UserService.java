@@ -17,10 +17,7 @@ public class UserService {
     private final LaboratoryRepository laboratoryRepository;
     private final ReservationRepository reservationRepository;
 
-    //添加预约记录
-    public void addReservation(Reservation newReservation){
 
-    }
 
 
 
