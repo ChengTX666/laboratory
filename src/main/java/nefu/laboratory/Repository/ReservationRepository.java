@@ -4,6 +4,7 @@ import nefu.laboratory.dox.Reservation;
 import nefu.laboratory.dto.WeeksDTO;
 import nefu.laboratory.mapper.CountResultSet;
 import nefu.laboratory.mapper.WeeksResultSetExtractor;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,9 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
     @Query("SELECT * from reservation")
     List<Reservation> findAll();
 
+    @Query("SELECT * from reservation where id=:id")
+    Reservation find(String id);
+
     //获取老师预约记录
     @Query("SELECT * from reservation where teacher_id=:tid")
     List<Reservation> findByTeacherId(String tid);
@@ -30,6 +34,9 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
     @Query("SELECT count(*) from reservation where laboratory_id=:lid")
     int countByLaboratoryId(String lid);
 
+    //查所有实验室的预约个数
+
+
     //根据每个实验室分组查询预约记录
     @Query(value = "SELECT laboratory_id,count(*) as count from reservation group by laboratory_id"
             ,resultSetExtractorClass = CountResultSet.class)
@@ -40,6 +47,12 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
     @Query(value = "SELECT * from reservation where laboratory_id=:lid and period=:period and day=:day"
             ,resultSetExtractorClass = WeeksResultSetExtractor.class)
     WeeksDTO findByLidAndPeriodAndDay(String lid, int period, int day);
+
+
+    //删除预约记录(判断是不是自己的)
+    @Modifying
+    @Query("DELETE from reservation where id=:id and teacher_id=:tid")
+    void deleteByIdAndTeacherId(String id,String tid);
 
 
 }

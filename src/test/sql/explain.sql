@@ -64,3 +64,10 @@ select group_concat(period,day,week separator ',') from reservation group by lab
 
 select group_concat(id) from reservation group by laboratory_id;
 select count(*) from reservation group by laboratory_id;
+
+
+#查通知
+explain
+select * from notice where title='通知3';
+
+select * from notice order by id desc limit 5;

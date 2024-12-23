@@ -21,6 +21,7 @@ public class Reservation {
     @Id
     private String id;
     private String teacherId;
+    private String teacherName;
     private String laboratoryId;
     private String laboratoryName;
     private String courseId;

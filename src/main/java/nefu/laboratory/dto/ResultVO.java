@@ -13,7 +13,7 @@ import java.util.Map;
 @Builder
 public class ResultVO {
     private int code;
-    private Map<String,Object> data;
+    private Object data;
     private String message;
     private static final ResultVO EMPTY=ResultVO.builder().code(200).data(Map.of()).build();
 
@@ -22,7 +22,7 @@ public class ResultVO {
     }
 
 
-    public static ResultVO success(Map<String,Object> data){
+    public static ResultVO success(Object data){
         return ResultVO.builder().code(200).data(data).build();
 
     }

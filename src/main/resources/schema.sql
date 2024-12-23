@@ -17,7 +17,8 @@ create table if not exists `notice`
     content    text not null ,
     publisher  varchar(20) null ,/* 添加了发布者名字 */
     create_time datetime not null default current_timestamp,
-    update_time datetime not null default current_timestamp on update current_timestamp
+    update_time datetime not null default current_timestamp on update current_timestamp,
+    unique (title)
 );
 
 create table if not exists `lab_user`
