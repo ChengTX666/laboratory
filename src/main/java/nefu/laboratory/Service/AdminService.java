@@ -68,10 +68,16 @@ public class AdminService {
         laboratoryRepository.deleteById(lid);
     }
     //初始化密码
-    public User reset(String account){
-        return userRepository.updateByAccount(account,passwordEncoder.encode(account));
+    public void reset(String account){
+       userRepository.updateByAccount(account,passwordEncoder.encode(account));
+    }
+    //初始化所有密码
+    public void preAll() {
+        userRepository.list().forEach(
+                user -> this.reset(user.getAccount())
+        );
     }
 
-    //公告管理
+        //公告管理
     //查询所有公告
 }

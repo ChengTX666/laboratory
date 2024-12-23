@@ -24,7 +24,7 @@ public class AdminController {
     //得到所有实验室
     @GetMapping("labs")
     public ResultVO labList(){
-        return ResultVO.success(Map.of("labList",adminService.listLab()));
+        return ResultVO.success(adminService.listLab());
     }
 
     //根据id改状态
@@ -42,12 +42,12 @@ public class AdminController {
     //添加实验室
     @PostMapping("labs")
     public ResultVO addLab(Laboratory laboratory){
-        return ResultVO.success(Map.of("lab",adminService.addLab(laboratory)));
+        return ResultVO.success(adminService.addLab(laboratory));
     }
     //重置用户密码
     @Operation(summary = "重置用户密码")
     @PatchMapping("reset")
-    public ResultVO reset(String account){
+    public ResultVO reset(@RequestBody String account){
         adminService.reset(account);
         return ResultVO.ok();
     }
