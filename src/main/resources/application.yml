@@ -10,10 +10,8 @@ spring:
       username: default
       password: 2046
       database: 9
-  cache:
-    redis:
 
-      value - serializer: org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
+
 my:
   key: abc
 server:
