@@ -16,6 +16,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -25,18 +26,19 @@ import java.util.Map;
 public class LoginController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final ObjectMapper objectMapper;
     private final JWTComponent jwtComponent;
-    private final CacheManager cacheManager;
 
-    @GetMapping("cache")
-    public ResultVO cacheTest(){
-        Cache lab = cacheManager.getCache("lab");
-        if(lab!=null){
-            return ResultVO.success(Map.of("cache",lab.getNativeCache()));
-        }
-        return ResultVO.error(400,"无缓存");
-    }
+//    @GetMapping("cache")
+//    public ResultVO cacheTest(){
+//        HashMap<String, Object> cacheMap = new HashMap<>();
+//        cacheManager.getCacheNames().forEach(cacheName->
+//            cacheMap.put(cacheName,cacheManager.getCache(cacheName).getNativeCache())
+//        );
+//        if(cacheMap!=null){
+//            return ResultVO.success(cacheMap);
+//        }
+//        return ResultVO.error(400,"无缓存");
+//    }
 
 
     @Operation(summary = "登录",description = "成功后返回user对象,header返回token")
@@ -51,6 +53,7 @@ public class LoginController {
         String token = jwtComponent.encode(Map.of("uid", user.getId(),"name",user.getName(),"role", user.getRole()));
         resp.addHeader("token", token);
         resp.addHeader("role", user.getRole());
-        return ResultVO.success(Map.of("user",user));
+
+        return ResultVO.success(user);
     }
 }

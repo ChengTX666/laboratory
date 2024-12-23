@@ -8,7 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.annotation.PostConstruct;
 
 import nefu.laboratory.dto.Code;
-import nefu.laboratory.exception.XException;
+import nefu.laboratory.dto.exception.XException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

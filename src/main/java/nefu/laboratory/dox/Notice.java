@@ -10,21 +10,17 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
 import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Laboratory {
-    @CreatedBy
+public class Notice {
     @Id
+    @CreatedBy
     private String id;
-    private String name;
-    private String config;
-    private int capacity;
-    private String status;
-    private String manager;
-    @JsonIgnore
+    private String title;
+    private String context;
+    private String publisher;
     @ReadOnlyProperty
     private LocalDateTime createTime;
     @JsonIgnore
