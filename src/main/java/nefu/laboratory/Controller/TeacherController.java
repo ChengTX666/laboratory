@@ -35,6 +35,7 @@ public class TeacherController {
     @PostMapping("reservations")
     public ResultVO addReservations(@RequestBody WeeksDTO weeksDTO,
                                     @RequestAttribute("uid") String tid,@RequestAttribute String name){
+        weeksDTO.setTeacherId(null);
         weeksDTO.setTeacherId(tid);
         weeksDTO.setTeacherName(name);
         teacherService.addReservations(weeksDTO);
@@ -46,10 +47,7 @@ public class TeacherController {
     @DeleteMapping("reservations/{rid}")//
     public ResultVO delReservation(@PathVariable String rid,@RequestAttribute("uid") String tid){
          teacherService.delReservation(rid, tid);
-         return ResultVO.builder()
-                 .code(200)
-                 .message("已成功删除")
-                 .build();
+         return ResultVO.ok("已成功删除");
     }
 
     //###############       课程
@@ -66,6 +64,7 @@ public class TeacherController {
     @PostMapping("courses")
     public ResultVO addCourse(@RequestBody Course course,
                               @RequestAttribute("uid")String tid,@RequestAttribute String name){
+        course.setId(null);
         course.setTeacherId(tid);
         course.setTeacherName(name);
         course.setType(Course.LAB);
@@ -83,10 +82,8 @@ public class TeacherController {
     @PatchMapping("courses")
     public ResultVO updateCourse(@RequestBody Course course,
                                  @RequestAttribute("uid")String tid,@RequestAttribute String name){
-        course.setTeacherId(tid);
-        course.setTeacherName(name);
-        course.setType(Course.LAB);
-        teacherService.updateCourse(course,tid);
+
+        teacherService.updateCourse(course,tid,name);
         return ResultVO.success(teacherService.courseLab(tid));
     }
 

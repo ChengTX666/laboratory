@@ -39,7 +39,11 @@ public class TeacherService {
     public void addCourse(Course course){
         courseRepository.save(course);
     }
-    public void updateCourse(Course course,String tid){
+    public void updateCourse(Course course,String tid,String name){
+        course.setTeacherId(tid);
+        course.setTeacherName(name);
+        course.setType(Course.LAB);
+
         Optional<Course> byId = courseRepository.findById(course.getId());
         if(byId.isEmpty()){
             throw XException.builder()

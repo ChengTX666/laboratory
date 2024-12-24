@@ -17,8 +17,12 @@ public class ResultVO {
     private String message;
     private static final ResultVO EMPTY=ResultVO.builder().code(200).data(Map.of()).build();
 
+
     public static ResultVO ok(){
         return EMPTY;
+    }
+    public static ResultVO ok(String message){
+        return ResultVO.builder().code(200).message(message).build();
     }
 
 
