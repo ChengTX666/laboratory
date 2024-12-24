@@ -36,14 +36,30 @@ public class AdminService {
     public List<User> teacherList(){
        return userRepository.findByRole(User.ROLE_TEACHER);
     }
+    public List<User> userList(){
+        return userRepository.list();
+    }
     //添加老师
     public void addTeacher(User user){
         user.setRole(User.ROLE_TEACHER);
-        userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getAccount()));
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw XException.DATA_ERROR;
+        }
+    }
+    public void addUser(User user){
+        user.setPassword(passwordEncoder.encode(user.getAccount()));
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw XException.DATA_ERROR;
+        }
     }
 
     //删除老师
-    public void delUser(String id){
+    public void delTeacher(String id){
         userRepository.deleteById(id);
     }
 
@@ -59,16 +75,18 @@ public class AdminService {
         }
         jdbcTemplate.batchUpdate(sql, batchArgs);
     }
+
     //
 
 
+    //######################实验室
     //查询所有实验室
     public List<Laboratory> listLab(){
         return laboratoryRepository.list();
     }
     //增加实验室
-    public Laboratory addLab(Laboratory laboratory){
-        return laboratoryRepository.save(laboratory);
+    public void addLab(Laboratory laboratory){
+        laboratoryRepository.save(laboratory);
     }
     //修改实验室状态
     public void updateLabStatus(String lid,String status){
