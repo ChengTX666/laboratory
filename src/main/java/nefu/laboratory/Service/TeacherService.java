@@ -13,6 +13,7 @@ import nefu.laboratory.dto.FreeDTO;
 import nefu.laboratory.dto.WeeksDTO;
 import nefu.laboratory.dto.exception.XException;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +38,13 @@ public class TeacherService {
     }
     // 添加课程
     public void addCourse(Course course){
-        courseRepository.save(course);
+        try {
+            courseRepository.save(course);
+        }catch (Exception e){
+            throw XException.DATA_ERROR;
+        }
     }
+    @Transactional
     public void updateCourse(Course course,String tid,String name){
         course.setTeacherId(tid);
         course.setTeacherName(name);
@@ -76,18 +82,17 @@ public class TeacherService {
     }
 
 
-//    @Cacheable(value = "lab",key = "'list'")
     public List<Laboratory> labList() {
         return laboratoryRepository.list();
     }
     //所有实验室对应的预约个数
-//    @Cacheable(value = "lab",key = "'count'")
+
     public Map<String,Integer> countMap(){
         return reservationRepository.countByLaboratoryId();
     }
 
     //查询当前实验室相关的预约
-//    @Cacheable(value = "reservation_l",key = "#lid")
+
     public List<Reservation> reservationLab(String lid) {
 
         return reservationRepository.findByLaboratoryId(lid);
@@ -111,7 +116,12 @@ public class TeacherService {
                     .day(weeksDTO.getDay())
                     .week(week)
                     .build();
-            reservationRepository.save(reservation);
+            try{
+                reservationRepository.save(reservation);
+            }catch (Exception e){
+                throw XException.DATA_ERROR;
+            }
+
         }
     }
     //删除预约
@@ -133,6 +143,18 @@ public class TeacherService {
                     .message("这不是你的,别捣乱哦")
                     .build();
         }
+    }
+//    @Transactional
+//    public void delReservations(List<String> ids,String tid){
+//        ids.forEach(id-> {
+//            delReservation(id,tid);
+//        });
+//    }
+    @Transactional
+    public void delReservations(List<Reservation> reservations ,String tid){
+        reservations.forEach(reservation-> {
+            delReservation(reservation.getId(),tid);
+        });
     }
 
 

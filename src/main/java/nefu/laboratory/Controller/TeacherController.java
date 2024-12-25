@@ -2,14 +2,16 @@ package nefu.laboratory.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import nefu.laboratory.Repository.LaboratoryRepository;
 import nefu.laboratory.Service.TeacherService;
 import nefu.laboratory.dox.Course;
+import nefu.laboratory.dox.Reservation;
+import nefu.laboratory.dto.IdsDTO;
 import nefu.laboratory.dto.ResultVO;
 import nefu.laboratory.dto.WeeksDTO;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/teacher/")
@@ -26,8 +28,8 @@ public class TeacherController {
     }
     //快速查询
     @Operation(summary = "快速查询")
-    @GetMapping("reservation/fast")
-    public ResultVO findFree(int week, int day){
+    @GetMapping("reservation/fast/{week}/{day}")
+    public ResultVO findFree(@PathVariable int week, @PathVariable int day){
         return ResultVO.success(teacherService.findFree(week,day));
     }
     //添加新预约
@@ -39,16 +41,36 @@ public class TeacherController {
         weeksDTO.setTeacherId(tid);
         weeksDTO.setTeacherName(name);
         teacherService.addReservations(weeksDTO);
-        return ResultVO.success(weeksDTO);
+        return ResultVO.success(teacherService.reservationTid(tid),"已成功添加");
     }
 
-    @Operation(summary = "取消预约(判断是否是自己的预约记录)")
+    @Operation(summary = "取消预约(判断是否是自己的预约记录),返回新的预约记录列表")
     //删除预约记录
     @DeleteMapping("reservations/{rid}")//
     public ResultVO delReservation(@PathVariable String rid,@RequestAttribute("uid") String tid){
          teacherService.delReservation(rid, tid);
-         return ResultVO.ok("已成功删除");
+         return ResultVO.success(teacherService.reservationTid(tid),"已成功删除");
     }
+    @Operation(summary = "批量取消预约(判断是否是自己的预约记录),返回新的预约记录列表List<String>")
+    //删除预约记录
+    @DeleteMapping("reservations/list")//
+    public ResultVO delReservationList(@RequestAttribute("uid") String tid,
+                                       @RequestBody List<Reservation> reservations){
+
+        teacherService.delReservations(reservations,tid);
+        return ResultVO.success(teacherService.reservationTid(tid),"已成功删除");
+    }
+
+
+//    @Operation(summary = "批量取消预约(判断是否是自己的预约记录),返回新的预约记录列表 字符串拼接")
+//    //删除预约记录
+//    @DeleteMapping("reservations")//
+//    public ResultVO delReservations(@RequestAttribute("uid") String tid, IdsDTO idsDTO){
+//        String ids=idsDTO.getIds();
+//        List<String> list = Arrays.stream(ids.split(",")).toList();
+//        teacherService.delReservations(list,tid);
+//        return ResultVO.success(teacherService.reservationTid(tid),"已成功删除");
+//    }
 
     //###############       课程
 
@@ -60,7 +82,7 @@ public class TeacherController {
         return ResultVO.success(teacherService.courseLab(tid));
     }
     //添加课程
-    @Operation(summary = "添加课程")
+    @Operation(summary = "添加课程,返回新的课程列表")
     @PostMapping("courses")
     public ResultVO addCourse(@RequestBody Course course,
                               @RequestAttribute("uid")String tid,@RequestAttribute String name){
@@ -72,13 +94,14 @@ public class TeacherController {
         return ResultVO.success(teacherService.courseLab(tid));
     }
     //删除课程
-    @Operation(summary = "删除课程")
+    @Operation(summary = "删除课程,返回新的课程列表")
     @DeleteMapping("courses/{cid}")
     public ResultVO delCourse(@PathVariable String cid,@RequestAttribute("uid") String tid){
         teacherService.delCourse(cid,tid);
         return ResultVO.success(teacherService.courseLab(tid));
     }
-    @Operation(summary = "修改课程")
+
+    @Operation(summary = "修改课程,返回新的课程列表")
     @PatchMapping("courses")
     public ResultVO updateCourse(@RequestBody Course course,
                                  @RequestAttribute("uid")String tid,@RequestAttribute String name){

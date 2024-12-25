@@ -28,7 +28,9 @@ public class ResultVO {
 
     public static ResultVO success(Object data){
         return ResultVO.builder().code(200).data(data).build();
-
+    }
+    public static ResultVO success(Object data,String message) {
+        return ResultVO.builder().code(200).data(data).message(message).build();
     }
     public static ResultVO error(int code,String message){
         return ResultVO.builder().code(code).message(message).build();

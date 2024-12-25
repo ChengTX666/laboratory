@@ -2,6 +2,9 @@
 
 ### update
 
+#### 2024-12-25
+批量删除预约记录, 保证事务:4,1 前者自己的后者别人的,抛出权限错误异常,应进行回滚
+
 #### 2024-12-24
 每个添加逻辑把id置空,确保安全性
 BeanUtils.copyProperties(laboratory,countDTO)

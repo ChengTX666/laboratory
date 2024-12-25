@@ -27,6 +27,7 @@ public class LoginController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JWTComponent jwtComponent;
+    private final ObjectMapper objectMapper;
 
 //    @GetMapping("cache")
 //    public ResultVO cacheTest(){
@@ -51,6 +52,7 @@ public class LoginController {
             return ResultVO.error(401, "用户名或密码错误");
         }
         String token = jwtComponent.encode(Map.of("uid", user.getId(),"name",user.getName(),"role", user.getRole()));
+        resp.addHeader("name",user.getName());
         resp.addHeader("token", token);
         resp.addHeader("role", user.getRole());
 
