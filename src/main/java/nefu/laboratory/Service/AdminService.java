@@ -15,6 +15,7 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,12 @@ public class AdminService {
             throw XException.DATA_ERROR;
         }
     }
+    public void updateUser(User user){
+        if(user.getId()==null){
+            throw XException.DATA_ERROR;
+        }
+        userRepository.save(user);
+    }
     public void addUser(User user){
         user.setPassword(passwordEncoder.encode(user.getAccount()));
         try {
@@ -71,7 +78,8 @@ public class AdminService {
         for (User user : userList) {
             //调用雪花算法审计操作
             Optional<String> snowflakeIdOptional = auditorAware.getCurrentAuditor();
-            batchArgs.add(new Object[]{snowflakeIdOptional.get(),user.getName(),user.getAccount(),user.getPassword(),user.getRole(), user.getPhone()});
+            String pwd =passwordEncoder.encode(user.getAccount());
+            batchArgs.add(new Object[]{snowflakeIdOptional.get(),user.getName(),user.getAccount(),pwd,User.ROLE_TEACHER, user.getPhone()});
         }
         jdbcTemplate.batchUpdate(sql, batchArgs);
     }
@@ -91,6 +99,14 @@ public class AdminService {
     //修改实验室状态
     public void updateLabStatus(String lid,String status){
          laboratoryRepository.updateStatusById(lid,status);
+    }
+    //修改实验室
+    @Transactional
+    public void updateLab(Laboratory laboratory){
+        if(laboratory.getId()==null){
+            throw XException.DATA_ERROR;
+        }
+        laboratoryRepository.save(laboratory);
     }
     //删除实验室(没有被预约的)
     public void deleteLab(String lid){

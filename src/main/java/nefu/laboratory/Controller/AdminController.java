@@ -49,7 +49,7 @@ public class AdminController {
     //批量导入用户
     @Operation(summary = "批处理添加用户list")
     @PostMapping("users/batch")
-    public ResultVO addUsers(List<User> userList){
+    public ResultVO addUsers(@RequestBody List<User> userList){
         adminService.batchInsertUsers(userList);
         return ResultVO.success(adminService.userList());
     }
@@ -73,12 +73,13 @@ public class AdminController {
         return ResultVO.success(adminService.listLab());
     }
 
-    //根据id改状态
-    @PatchMapping("labs/{lid}")//?????????????前端传递的是什么
-    public ResultVO updateStatus(@PathVariable("lid") String lid,@RequestBody Laboratory laboratory){
-        adminService.updateLabStatus(lid,laboratory.getStatus());
-        return ResultVO.ok();
+    //修改实验室
+    @PatchMapping("labs")
+    public ResultVO updateLaboratory(@RequestBody Laboratory laboratory){
+        adminService.updateLab(laboratory);
+        return ResultVO.success(adminService.listLab(),"已修改成功");
     }
+
     //删除
     @DeleteMapping("labs/{id}")
     public ResultVO deleteLab(@PathVariable("id") String lid){
@@ -101,6 +102,7 @@ public class AdminController {
         adminService.reset(account);
         return ResultVO.ok();
     }
+
 
 
 
