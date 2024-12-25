@@ -4,8 +4,10 @@ package nefu.laboratory.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nefu.laboratory.Controller.TeacherController;
+import nefu.laboratory.Repository.NoticeRepository;
 import nefu.laboratory.Repository.ReservationRepository;
 import nefu.laboratory.dox.Laboratory;
+import nefu.laboratory.dox.Notice;
 import nefu.laboratory.dox.User;
 import nefu.laboratory.Repository.LaboratoryRepository;
 import nefu.laboratory.Repository.UserRepository;
@@ -28,9 +30,11 @@ public class AdminService {
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
     private final LaboratoryRepository laboratoryRepository;
+    private final NoticeRepository noticeRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuditorAware<String> auditorAware;
     private final JdbcTemplate jdbcTemplate;
+
 
     //########################       用户管理
     //查询所有老师
@@ -132,4 +136,13 @@ public class AdminService {
 
         //公告管理
     //查询所有公告
+    public List<Notice> noticeList(){
+        return noticeRepository.findAll();
+    }
+    //分页查询
+    public List<Notice> noticeLimit(int offset,int limit){
+        return noticeRepository.findLimit(offset, limit);
+    }
+    //修改通知
+
 }

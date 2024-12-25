@@ -10,9 +10,15 @@ public interface NoticeRepository extends CrudRepository<Notice,String> {
 
     @Query("SELECT * from notice")
     List<Notice> findAll();
+
+    @Query("DELETE from notice where id=:id")
+    void deleteById(String id);
+
+
+
     //分页查询
-    @Query("SELECT * from notice limit 5,")
-    List<Notice> findLimit
+    @Query("SELECT * from notice limit :offset,:limit")
+    List<Notice> findLimit(int offset,int limit);
 
 
 }
