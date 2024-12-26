@@ -19,7 +19,15 @@ public class NoticeTest {
     @Test
     void test01(){
         List<Notice> limit = noticeRepository.findLimit(1, 1);
-
         log.info("{}",limit);
+    }
+    @Test
+    void testSave(){
+        Notice build = Notice.builder()
+                .title("表体")
+                .content("neirong")
+                .publisher("wo")
+                .build();
+        noticeRepository.save(build);
     }
 }

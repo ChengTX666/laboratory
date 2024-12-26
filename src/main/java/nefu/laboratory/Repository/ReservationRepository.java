@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends CrudRepository<Reservation,String> {
@@ -18,6 +19,18 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
     //取所有预约记录
     @Query("SELECT * from reservation")
     List<Reservation> findAll();
+
+    // 删除检查
+    @Query("SELECT id from reservation where teacher_id=:tid limit 1")
+    String existByTeacherId(String tid);
+    @Query("SELECT id from reservation where teacher_id=:tid and course_id=:cid limit 1")
+    String existByTeacherIdAndCourseId(String tid,String cid);
+
+    @Query("SELECT id from reservation where laboratory_id=:lid limit 1")
+    String existByLaboratoryId(String lid);
+
+
+
 
     @Query("SELECT * from reservation where id=:id")
     Reservation find(String id);
