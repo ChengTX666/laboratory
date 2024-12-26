@@ -60,6 +60,7 @@ public class AdminService {
         }
         userRepository.save(user);
     }
+    @Transactional
     public void addUser(User user){
         user.setPassword(passwordEncoder.encode(user.getAccount()));
         try {
@@ -69,11 +70,19 @@ public class AdminService {
         }
     }
 
+    @Transactional
     //删除老师
     public void delTeacher(String id){
+        if(reservationRepository.existByTeacherId(id)!=null){
+            throw XException.builder()
+                    .codeN(432)
+                    .message("该老师存在预约记录,禁止删除")
+                    .build();
+        }
         userRepository.deleteById(id);
     }
 
+    @Transactional
     //批量导入老师
     public void batchInsertUsers(List<User> userList) {
 
@@ -97,12 +106,16 @@ public class AdminService {
         return laboratoryRepository.list();
     }
     //增加实验室
+    @Transactional
     public void addLab(Laboratory laboratory){
-        laboratoryRepository.save(laboratory);
-    }
-    //修改实验室状态
-    public void updateLabStatus(String lid,String status){
-         laboratoryRepository.updateStatusById(lid,status);
+        laboratory.setId(null);
+        laboratory.setStatus("开放");
+        try {
+            laboratoryRepository.save(laboratory);
+        }catch (Exception e){
+            throw XException.DATA_ERROR;
+        }
+
     }
     //修改实验室
     @Transactional
@@ -143,6 +156,22 @@ public class AdminService {
     public List<Notice> noticeLimit(int offset,int limit){
         return noticeRepository.findLimit(offset, limit);
     }
-    //修改通知
+    //添加公告
+    public void addNotice(Notice notice){
+        notice.setId(null);
+        notice.setCreateTime(null);
+        notice.setUpdateTime(null);
+        noticeRepository.save(notice);
+    }
+    //修改公告
+    public void updateNotice(Notice notice){
+        noticeRepository.save(notice);
+    }
+
+    //删除公告
+    public void deleteNotice(String nid){
+        noticeRepository.deleteById(nid);
+    }
+
 
 }

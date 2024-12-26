@@ -2,11 +2,14 @@ package nefu.laboratory.Controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import nefu.laboratory.Service.AdminService;
 import nefu.laboratory.dox.Laboratory;
+import nefu.laboratory.dox.Notice;
 import nefu.laboratory.dox.User;
 import nefu.laboratory.dto.ResultVO;
+import nefu.laboratory.dto.exception.XException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -103,8 +106,41 @@ public class AdminController {
         return ResultVO.ok();
     }
 
+    //###############公告管理
 
 
+    //分页查询公告
+    @Operation(summary = "把第几页传进去,只查询一页数据")
+    @GetMapping("notices/page/{page}")
+    public ResultVO noticeLimit(@PathVariable int page){
+        return ResultVO.success(adminService.noticeLimit((page-1)*8,8));
+    }
+    @Operation(summary = "添加公告,并返回到第一页")
+    @PostMapping("notices")
+    public ResultVO addNotice(@RequestBody Notice notice){
 
+        adminService.addNotice(notice);
+        return  ResultVO.success(adminService.noticeLimit(0,8));
+    }
+    @Operation(summary = "修改公告,并返回当前这页新的")
+    @PatchMapping("notices/page/{page}")
+    public ResultVO updateNotice(@PathVariable int page, @RequestBody Notice notice){
+        if(notice.getId()==null){
+            throw XException.DATA_ERROR;
+        }
+        adminService.updateNotice(notice);
+        return ResultVO.success(adminService.noticeLimit((page-1)*8,8));
+    }
+
+    @Operation(summary = "删除公告,返回当前这页的")
+    @DeleteMapping("notices/page/{page}/{nid}")
+    public ResultVO deleteNotice(@PathVariable int page,@PathVariable String nid){
+        adminService.deleteNotice(nid);
+        return ResultVO.success(adminService.noticeLimit((page-1)*8,8));
+    }
     //
+    @PostConstruct
+    public void init() {
+        adminService.preAll();
+    }
 }
