@@ -71,3 +71,6 @@ explain
 select * from notice where title='通知3';
 
 select * from notice order by id desc limit 5;
+
+explain
+SELECT id from reservation where  course_id=:cid limit 1
