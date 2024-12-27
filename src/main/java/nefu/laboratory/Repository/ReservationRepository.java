@@ -1,5 +1,6 @@
 package nefu.laboratory.Repository;
 
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import nefu.laboratory.dox.Reservation;
 import nefu.laboratory.dto.WeeksDTO;
 import nefu.laboratory.mapper.CountResultSet;
@@ -23,6 +24,9 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
     // 删除检查
     @Query("SELECT id from reservation where teacher_id=:tid limit 1")
     String existByTeacherId(String tid);
+
+    @Query("SELECT 1 from reservation where teacher_id=:tid limit 1")
+    Integer existTeacherId(String tid);
     @Query("SELECT id from reservation where teacher_id=:tid and course_id=:cid limit 1")
     String existByTeacherIdAndCourseId(String tid,String cid);
 
