@@ -1,11 +1,10 @@
-package nefu.laboratory.Controller;
+package nefu.laboratory.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import nefu.laboratory.Service.TeacherService;
 import nefu.laboratory.dox.Course;
 import nefu.laboratory.dox.Reservation;
-import nefu.laboratory.dto.IdsDTO;
 import nefu.laboratory.dto.ResultVO;
 import nefu.laboratory.dto.WeeksDTO;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +36,7 @@ public class TeacherController {
     @PostMapping("reservations")
     public ResultVO addReservations(@RequestBody WeeksDTO weeksDTO,
                                     @RequestAttribute("uid") String tid,@RequestAttribute String name){
-        weeksDTO.setTeacherId(null);
+
         weeksDTO.setTeacherId(tid);
         weeksDTO.setTeacherName(name);
         teacherService.addReservations(weeksDTO);
@@ -51,15 +50,15 @@ public class TeacherController {
          teacherService.delReservation(rid, tid);
          return ResultVO.success(teacherService.reservationTid(tid),"已成功删除");
     }
-    @Operation(summary = "批量取消预约(判断是否是自己的预约记录),返回新的预约记录列表List<Reservation>")
-    //删除预约记录
-    @DeleteMapping("reservations/list")//
-    public ResultVO delReservationList(@RequestAttribute("uid") String tid,
-                                       @RequestBody List<Reservation> reservations){
-
-        teacherService.delReservations(reservations,tid);
-        return ResultVO.success(teacherService.reservationTid(tid),"已成功删除");
-    }
+//    @Operation(summary = "批量取消预约(判断是否是自己的预约记录),返回新的预约记录列表List<Reservation>")
+//    //删除预约记录
+//    @DeleteMapping("reservations/list")//
+//    public ResultVO delReservationList(@RequestAttribute("uid") String tid,
+//                                       @RequestBody List<Reservation> reservations){
+//
+//        teacherService.delReservations(reservations,tid);
+//        return ResultVO.success(teacherService.reservationTid(tid),"已成功删除");
+//    }
     @Operation(summary = "批量取消预约(判断是否是自己的预约记录),返回新的预约记录列表Reservation[]")
     //删除预约记录
     @DeleteMapping("reservations")//
@@ -124,7 +123,7 @@ public class TeacherController {
     @Operation(summary = "查看所有实验室")
     @GetMapping("labs")
     public ResultVO labList(){
-        return ResultVO.success(teacherService.labAndCount());
+        return ResultVO.success(teacherService.labList());
     }
 
 

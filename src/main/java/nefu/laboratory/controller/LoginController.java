@@ -1,9 +1,8 @@
-package nefu.laboratory.Controller;
+package nefu.laboratory.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +11,9 @@ import nefu.laboratory.component.JWTComponent;
 import nefu.laboratory.dox.User;
 import nefu.laboratory.dto.Login;
 import nefu.laboratory.dto.ResultVO;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j

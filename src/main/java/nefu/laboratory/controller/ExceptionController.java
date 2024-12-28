@@ -1,4 +1,4 @@
-package nefu.laboratory.Controller;
+package nefu.laboratory.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import nefu.laboratory.dto.Code;
