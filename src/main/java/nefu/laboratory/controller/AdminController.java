@@ -2,6 +2,7 @@ package nefu.laboratory.controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import nefu.laboratory.Service.AdminService;
@@ -18,6 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin/")
+@Tag(name = "管理员模块")
 public class AdminController {
     private final AdminService adminService;
 //    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6ImFiYzEiLCJuYW1lIjoi546L5rOiIiwiZXhwIjoxNzM3NTkzMTQ0LCJpYXQiOjE3MzUwMDExODB9.dn8zJ9wXKoud_UOgSuUsPh71z6iZmJS_Ogxqm3LU8A8
