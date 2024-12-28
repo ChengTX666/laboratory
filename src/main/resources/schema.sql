@@ -14,11 +14,11 @@ create table if not exists `notice`
 (
     id         char(19) not null primary key,
     title      varchar(50) not null,
-    content    text not null ,
+    content    text  null ,
     publisher  varchar(20) null ,/* 添加了发布者名字 */
     create_time datetime not null default current_timestamp,
     update_time datetime not null default current_timestamp on update current_timestamp,
-    unique (title)
+    index (title)
 );
 
 create table if not exists `lab_user`

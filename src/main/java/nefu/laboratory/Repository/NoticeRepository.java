@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface NoticeRepository extends CrudRepository<Notice,String> {
 
-    @Query("SELECT * from notice order by id desc ")
+    @Query("SELECT * from notice order by update_time desc ")
     List<Notice> findAll();
     //分页查询
-    @Query("SELECT * from notice order by id desc limit :offset,:limit ")
+    @Query("SELECT * from notice order by update_time desc limit :offset,:limit ")
     List<Notice> findLimit(int offset,int limit);
 
     @Modifying

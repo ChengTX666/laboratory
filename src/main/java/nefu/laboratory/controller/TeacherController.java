@@ -1,6 +1,7 @@
 package nefu.laboratory.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nefu.laboratory.Service.TeacherService;
 import nefu.laboratory.dox.Course;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/teacher/")
 @RequiredArgsConstructor
+@Tag(name = "老师模块")
 public class TeacherController {
     private final TeacherService teacherService;
     //登录进去拿预约记录形成日程表

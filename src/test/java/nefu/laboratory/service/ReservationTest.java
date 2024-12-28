@@ -49,16 +49,6 @@ public class ReservationTest {
         log.info("{}",free);
     }
     @Test
-    void test100(){
-        Integer i = reservationRepository.existTeacherId("1321667360877490176");
-        log.info("{}",i);
-    }
-    @Test
-    void testCount(){
-        String s = reservationRepository.existByTeacherId("123");
-        log.info("{}",s);
-    }
-    @Test
     void test02(){
         WeeksDTO dto = reservationRepository.findByLidAndPeriodAndDay("1", 1, 1);
         log.info("{}",dto);

@@ -68,6 +68,11 @@ public class TeacherService {
     }
 
     //查所有实验室
+
+    public List<Laboratory> labList(){
+        return laboratoryRepository.list();
+    }
+
     public List<CountDTO> labAndCount(){
         List<CountDTO> countDTOList =new LinkedList<>();
 
@@ -81,15 +86,6 @@ public class TeacherService {
         return countDTOList;
     }
 
-
-    public List<Laboratory> labList() {
-        return laboratoryRepository.list();
-    }
-    //所有实验室对应的预约个数
-
-    public Map<String,Integer> countMap(){
-        return reservationRepository.countByLaboratoryId();
-    }
 
     //查询当前实验室相关的预约
 
@@ -144,36 +140,34 @@ public class TeacherService {
                     .build();
         }
     }
-//    @Transactional
-//    public void delReservations(List<String> ids,String tid){
-//        ids.forEach(id-> {
-//            delReservation(id,tid);
-//        });
-//    }
+
     @Transactional
-    public void delReservations(List<Reservation> reservations ,String tid){
-        reservations.forEach(reservation-> {
+    public void delReservations(List<Reservation> reservationList,String tid){
+        reservationList.forEach(reservation-> {
             delReservation(reservation.getId(),tid);
         });
     }
 
-
-        public void delCourse(String id,String tid){
+    @Transactional
+    public void delCourse(String id,String tid){
             Optional<Course> c = courseRepository.findById(id);
             if(c.isEmpty()) {
                 throw XException.builder()
-                        .codeN(400)
+                        .codeN(404)
                         .message("课程不存在")
                         .build();
             }
             if(c.get().getTeacherId().equals(tid)){
+                if (reservationRepository.existByTeacherIdAndCourseId(tid,id)!=null) {
+                    throw XException.builder()
+                            .codeN(432)
+                            .message("该课程存在预约记录,禁止删除")
+                            .build();
+                }
                 courseRepository.deleteByIdAndTeacherId(id, tid);
             }
             else {
-                throw XException.builder()
-                        .codeN(403)
-                        .message("这不是你的,别捣乱哦")
-                        .build();
+                throw XException.PERMISSION_ERROR;
             }
     }
 
