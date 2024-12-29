@@ -12,9 +12,11 @@ import nefu.laboratory.component.JWTComponent;
 import nefu.laboratory.dox.User;
 import nefu.laboratory.dto.Login;
 import nefu.laboratory.dto.ResultVO;
+import org.springframework.cache.CacheManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -26,19 +28,20 @@ public class LoginController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JWTComponent jwtComponent;
-    private final ObjectMapper objectMapper;
 
-//    @GetMapping("cache")
-//    public ResultVO cacheTest(){
-//        HashMap<String, Object> cacheMap = new HashMap<>();
-//        cacheManager.getCacheNames().forEach(cacheName->
-//            cacheMap.put(cacheName,cacheManager.getCache(cacheName).getNativeCache())
-//        );
-//        if(cacheMap!=null){
-//            return ResultVO.success(cacheMap);
-//        }
-//        return ResultVO.error(400,"无缓存");
-//    }
+    private final CacheManager cacheManager;
+
+    @GetMapping("cache")
+    public ResultVO cacheTest(){
+        HashMap<String, Object> cacheMap = new HashMap<>();
+        cacheManager.getCacheNames().forEach(cacheName->
+            cacheMap.put(cacheName,cacheManager.getCache(cacheName).getNativeCache())
+        );
+        if(cacheMap!=null){
+            return ResultVO.success(cacheMap);
+        }
+        return ResultVO.error(400,"无缓存");
+    }
 
 
     @Operation(summary = "登录",description = "成功后返回user对象,header返回token")

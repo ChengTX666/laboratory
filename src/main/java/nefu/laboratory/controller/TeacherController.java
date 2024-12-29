@@ -42,6 +42,7 @@ public class TeacherController {
         weeksDTO.setTeacherId(tid);
         weeksDTO.setTeacherName(name);
         teacherService.addReservations(weeksDTO);
+        //返回值后会调用被@Cacheable修饰的方法
         return ResultVO.success(teacherService.reservationTid(tid),"已成功添加");
     }
 
@@ -61,6 +62,7 @@ public class TeacherController {
 //        teacherService.delReservations(reservations,tid);
 //        return ResultVO.success(teacherService.reservationTid(tid),"已成功删除");
 //    }
+
     @Operation(summary = "批量取消预约(判断是否是自己的预约记录),返回新的预约记录列表Reservation[]")
     //删除预约记录
     @DeleteMapping("reservations")//
@@ -125,7 +127,8 @@ public class TeacherController {
     @Operation(summary = "查看所有实验室")
     @GetMapping("labs")
     public ResultVO labList(){
-        return ResultVO.success(teacherService.labList());
+
+        return ResultVO.success(teacherService.labAndCount());
     }
 
 

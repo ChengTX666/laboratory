@@ -13,6 +13,9 @@ import nefu.laboratory.dto.FreeDTO;
 import nefu.laboratory.dto.WeeksDTO;
 import nefu.laboratory.dto.exception.XException;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +36,14 @@ public class TeacherService {
     }
 
     //查老师的课程
+    @Cacheable(value = "course",key = "#tid")
+
     public List<Course> courseLab(String tid) {
         return courseRepository.findByTeacherIdAndType(tid, Course.LAB);
     }
     // 添加课程
+
+    @CacheEvict(value = "course",key = "#course.teacherId")
     public void addCourse(Course course){
         try {
             courseRepository.save(course);
@@ -44,6 +51,7 @@ public class TeacherService {
             throw XException.DATA_ERROR;
         }
     }
+    @CacheEvict(value = "course",key = "#course.teacherId")
     @Transactional
     public void updateCourse(Course course,String tid,String name){
         course.setTeacherId(tid);
@@ -66,12 +74,31 @@ public class TeacherService {
                     .build();
         }
     }
+    @Transactional
+    @CacheEvict(value = "course",key = "#tid")
+    public void delCourse(String id,String tid){
+        Optional<Course> c = courseRepository.findById(id);
+        if(c.isEmpty()) {
+            throw XException.builder()
+                    .codeN(404)
+                    .message("课程不存在")
+                    .build();
+        }
+        if(c.get().getTeacherId().equals(tid)){
+            if (reservationRepository.existByTeacherIdAndCourseId(tid,id)!=null) {
+                throw XException.builder()
+                        .codeN(432)
+                        .message("该课程存在预约记录,禁止删除")
+                        .build();
+            }
+            courseRepository.deleteByIdAndTeacherId(id, tid);
+        }
+        else {
+            throw XException.PERMISSION_ERROR;
+        }
+    }
 
     //查所有实验室
-
-    public List<Laboratory> labList(){
-        return laboratoryRepository.list();
-    }
 
     public List<CountDTO> labAndCount(){
         List<CountDTO> countDTOList =new LinkedList<>();
@@ -88,7 +115,6 @@ public class TeacherService {
 
 
     //查询当前实验室相关的预约
-
     public List<Reservation> reservationLab(String lid) {
 
         return reservationRepository.findByLaboratoryId(lid);
@@ -121,7 +147,6 @@ public class TeacherService {
         }
     }
     //删除预约
-//    @CacheEvict("reservation_t")
     public void delReservation(String id,String tid){
         Optional<Reservation> r = reservationRepository.findById(id);
         if(r.isEmpty()) {
@@ -148,28 +173,8 @@ public class TeacherService {
         });
     }
 
-    @Transactional
-    public void delCourse(String id,String tid){
-            Optional<Course> c = courseRepository.findById(id);
-            if(c.isEmpty()) {
-                throw XException.builder()
-                        .codeN(404)
-                        .message("课程不存在")
-                        .build();
-            }
-            if(c.get().getTeacherId().equals(tid)){
-                if (reservationRepository.existByTeacherIdAndCourseId(tid,id)!=null) {
-                    throw XException.builder()
-                            .codeN(432)
-                            .message("该课程存在预约记录,禁止删除")
-                            .build();
-                }
-                courseRepository.deleteByIdAndTeacherId(id, tid);
-            }
-            else {
-                throw XException.PERMISSION_ERROR;
-            }
-    }
+
+
 
 
 
