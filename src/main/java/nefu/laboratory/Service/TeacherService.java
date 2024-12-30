@@ -66,6 +66,7 @@ public class TeacherService {
                     .build();
         }else if(byId.get().getTeacherId().equals(tid)){
            courseRepository.save(course);
+           reservationRepository.updateNameByCid(course.getId(),course.getName());
         }
         else {
             throw XException.builder()
