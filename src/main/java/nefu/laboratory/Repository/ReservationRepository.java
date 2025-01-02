@@ -18,13 +18,15 @@ import java.util.Optional;
 public interface ReservationRepository extends CrudRepository<Reservation,String> {
 
     //老师修改课程名后把预约记录更新
+    @Modifying
     @Query("update reservation set course_name=:name where course_id=:id")
     void updateNameByCid(String id,String name);
-
+    @Modifying
     @Query("update reservation set teacher_name=:name where teacher_id=:id")
     void updateNameByTid(String id,String name);
 
-    @Query("update  reservation set laboratory_name=:name where laboratory_id=:id")
+    @Modifying
+    @Query("update reservation set laboratory_name=:name where laboratory_id=:id")
     void updateNameByLid(String id, String name);
 
     //取所有预约记录
@@ -41,8 +43,6 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
     @Query("SELECT 1 from reservation where teacher_id=:tid and course_id=:cid limit 1")
     Integer existByTeacherIdAndCourseId(String tid,String cid);
 
-    @Query("SELECT id from reservation where laboratory_id=:lid limit 1")
-    String existByLaboratoryId(String lid);
 
 
     @Query("SELECT * from reservation where id=:id")
