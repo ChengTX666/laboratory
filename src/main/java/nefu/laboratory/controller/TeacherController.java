@@ -130,8 +130,6 @@ public class TeacherController {
 
         return ResultVO.success(teacherService.labAndCount());
     }
-
-
     @Operation(summary = "点击某个实验室,拿到该实验室的预约记录")
     //点进去实验室,查看具体4×7格的时间表 取出预约记录
     @GetMapping("labs/{lid}")

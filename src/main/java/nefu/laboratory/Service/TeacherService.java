@@ -66,6 +66,7 @@ public class TeacherService {
                     .build();
         }else if(byId.get().getTeacherId().equals(tid)){
            courseRepository.save(course);
+           //修改预约表
            reservationRepository.updateNameByCid(course.getId(),course.getName());
         }
         else {

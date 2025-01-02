@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nefu.laboratory.Repository.LaboratoryRepository;
 import nefu.laboratory.Repository.ReservationRepository;
+import nefu.laboratory.Service.AdminService;
 import nefu.laboratory.Service.TeacherService;
+import nefu.laboratory.dox.Laboratory;
 import nefu.laboratory.dox.Reservation;
 import nefu.laboratory.dto.FreeDTO;
 import nefu.laboratory.dto.WeeksDTO;
@@ -19,6 +21,8 @@ import java.util.Optional;
 @SpringBootTest
 @Slf4j
 public class ReservationTest {
+    @Autowired
+    private AdminService adminService;
 
     @Autowired
     private TeacherService teacherService;
@@ -45,8 +49,18 @@ public class ReservationTest {
     }
     @Test
     void test00(){
-        List<FreeDTO> free = laboratoryRepository.findFree(1, 2);
-        log.info("{}",free);
+        Laboratory.LaboratoryBuilder builder = Laboratory.builder()
+                .id("2")
+                .capacity(123)
+                .config("asads")
+                .name("国际")
+                .status("开放")
+                .manager("{\"name\":\"名字\"}")
+                ;
+        adminService.updateLab(builder.build());
+
+
+
     }
     @Test
     void test02(){
