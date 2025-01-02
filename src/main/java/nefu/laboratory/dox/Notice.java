@@ -26,6 +26,7 @@ public class Notice {
     @JsonIgnore
     @ReadOnlyProperty
     private LocalDateTime createTime;
+
     @ReadOnlyProperty
     private LocalDateTime updateTime;
 }

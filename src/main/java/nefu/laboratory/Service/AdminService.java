@@ -40,6 +40,14 @@ public class AdminService {
     public List<User> teacherList(){
        return userRepository.findByRole(User.ROLE_TEACHER);
     }
+    public User findByName(String name){
+        return userRepository.findByName(name);
+    }
+    public User findByAccount(String account){
+        return userRepository.findByAccount(account);
+    }
+
+
     public List<User> userList(){
         return userRepository.list();
     }
@@ -58,6 +66,10 @@ public class AdminService {
             throw XException.DATA_ERROR;
         }
         userRepository.save(user);
+    }
+    public void updateTeacher(User user){
+        user.setRole(User.ROLE_TEACHER);
+        updateUser(user);
     }
     @Transactional
     public void addUser(User user){
@@ -108,7 +120,7 @@ public class AdminService {
     @Transactional
     public void addLab(Laboratory laboratory){
         laboratory.setId(null);
-        laboratory.setStatus("开放");
+
         try {
             laboratoryRepository.save(laboratory);
         }catch (Exception e){
@@ -118,11 +130,23 @@ public class AdminService {
     }
     //修改实验室
     @Transactional
-    public void updateLab(Laboratory laboratory){
-        if(laboratory.getId()==null){
+    public void updateLab(Laboratory laboratory) {
+        if (laboratory.getId() == null) {
             throw XException.DATA_ERROR;
         }
+        String name = laboratoryRepository.findName(laboratory.getId());
+
         laboratoryRepository.save(laboratory);
+
+        //原名字和改后的名字不相同
+        if (!name.equals(laboratory.getName()))
+        {
+            //修改预约表
+            reservationRepository.updateNameByLid(laboratory.getId(),laboratory.getName());
+        }
+
+
+
     }
     //删除实验室(没有被预约的)
     public void deleteLab(String lid){
@@ -146,43 +170,6 @@ public class AdminService {
         );
     }
 
-        //公告管理
-    //查询所有公告
-    public List<Notice> noticeList(){
-        return noticeRepository.findAll();
-    }
-    //分页查询
-    public List<Notice> noticeLimit(int offset,int limit){
-        return noticeRepository.findLimit(offset, limit);
-    }
-    //添加公告
-    public void addNotice(Notice notice){
-        notice.setId(null);
-        notice.setCreateTime(null);
-        notice.setUpdateTime(null);
-        noticeRepository.save(notice);
-    }
-    //修改公告
-    @Transactional
-    public void updateNotice(Notice notice){
-        noticeRepository.save(notice);
-    }
-
-    //删除公告
-    @Transactional
-    public void deleteNotice(String nid){
-        noticeRepository.deleteById(nid);
-    }
-
-    @Transactional
-    public void batchDeleteNotice(List<String> ids){
-        ids.forEach(noticeRepository::deleteById);
-    }
-    //获取消息总数量
-    @Transactional
-    public long countNotice(){
-       return noticeRepository.count();
-    }
 
 
 }

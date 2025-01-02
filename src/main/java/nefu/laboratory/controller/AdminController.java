@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import nefu.laboratory.Service.AdminService;
+import nefu.laboratory.Service.NoticeService;
 import nefu.laboratory.dox.Laboratory;
 import nefu.laboratory.dox.Notice;
 import nefu.laboratory.dox.User;
@@ -22,8 +23,19 @@ import java.util.Map;
 @Tag(name = "管理员模块")
 public class AdminController {
     private final AdminService adminService;
+    private final NoticeService noticeService;
 //    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6ImFiYzEiLCJuYW1lIjoi546L5rOiIiwiZXhwIjoxNzM3NTkzMTQ0LCJpYXQiOjE3MzUwMDExODB9.dn8zJ9wXKoud_UOgSuUsPh71z6iZmJS_Ogxqm3LU8A8
 
+    @Operation(summary = "根据账号查询用户")
+    @GetMapping("search/account")
+    public ResultVO searchByAccount(String account){
+        return ResultVO.success(adminService.findByAccount(account));
+    }
+    @Operation(summary = "根据名字查询用户")
+    @GetMapping("search/name")
+    public ResultVO searchByName(String name){
+        return ResultVO.success(adminService.findByName(name));
+    }
     //所有用户
     @Operation(summary = "得到所有用户(包括admin)")
     @GetMapping("users")
@@ -48,6 +60,12 @@ public class AdminController {
     public ResultVO addTeacher(@RequestBody User user){
         user.setId(null);
         adminService.addTeacher(user);
+        return ResultVO.success(adminService.teacherList());
+    }
+    @Operation(summary = "更新老师信息,返回新的老师列表")
+    @PatchMapping("users/teachers")
+    public ResultVO updateTeacher(@RequestBody User user){
+        adminService.updateTeacher(user);
         return ResultVO.success(adminService.teacherList());
     }
 
@@ -109,60 +127,51 @@ public class AdminController {
     }
 
     //###############公告管理
-
-//    //第一页
-//    @Operation(summary = "通知初始页,返回第一页和总通知数")
-//    @GetMapping("notices/index")
-//    public ResultVO noticeIndex(){
 //
-//
+//    //分页查询公告
+//    @Operation(summary = "把第几页传进去,只查询一页数据")
+//    @GetMapping("notices/page/{page}")
+//    public ResultVO noticeLimit(@PathVariable int page){
+//        return ResultVO.success(Map.of(
+//                "notices",noticeService.noticeLimit((page-1)*8,8),
+//                "count",noticeService.countNotice()));
 //    }
-
-
-    //分页查询公告
-    @Operation(summary = "把第几页传进去,只查询一页数据")
-    @GetMapping("notices/page/{page}")
-    public ResultVO noticeLimit(@PathVariable int page){
-        return ResultVO.success(Map.of(
-                "notices",adminService.noticeLimit((page-1)*8,8),
-                "count",adminService.countNotice()));
-    }
-    @Operation(summary = "添加公告,并返回到第一页")
-    @PostMapping("notices")
-    public ResultVO addNotice(@RequestBody Notice notice){
-        adminService.addNotice(notice);
-        return  ResultVO.success(Map.of(
-                "notices",adminService.noticeLimit(0,8),
-                "count",adminService.countNotice()));
-    }
-    @Operation(summary = "修改公告,并返回当前这页新的")
-    @PatchMapping("notices/page/{page}")
-    public ResultVO updateNotice(@PathVariable int page, @RequestBody Notice notice){
-        if(notice.getId()==null){
-            throw XException.DATA_ERROR;
-        }
-        adminService.updateNotice(notice);
-        return ResultVO.success(Map.of(
-                "notices",adminService.noticeLimit((page-1)*8,8),
-                "count",adminService.countNotice()));
-    }
-
-    @Operation(summary = "删除公告,返回当前这页的新的")
-    @DeleteMapping("notices/page/{page}/{nid}")
-    public ResultVO deleteNotice(@PathVariable int page,@PathVariable String nid){
-        adminService.deleteNotice(nid);
-        return ResultVO.success(Map.of(
-                "notices",adminService.noticeLimit((page-1)*8,8),
-                "count",adminService.countNotice()));
-    }
-    @Operation(summary = "批量删除公告,返回当前这页的新的")
-    @DeleteMapping("notices/page/{page}/batch")
-    public ResultVO deleteNotice(@PathVariable int page,@RequestBody List<String> ids){
-        adminService.batchDeleteNotice(ids);
-        return ResultVO.success(Map.of(
-                "notices",adminService.noticeLimit((page-1)*8,8),
-                "count",adminService.countNotice()));
-    }
+//    @Operation(summary = "添加公告,并返回到第一页")
+//    @PostMapping("notices")
+//    public ResultVO addNotice(@RequestBody Notice notice){
+//        noticeService.addNotice(notice);
+//        return  ResultVO.success(Map.of(
+//                "notices",noticeService.noticeLimit(0,8),
+//                "count",noticeService.countNotice()));
+//    }
+//    @Operation(summary = "修改公告,并返回当前这页新的")
+//    @PatchMapping("notices/page/{page}")
+//    public ResultVO updateNotice(@PathVariable int page, @RequestBody Notice notice){
+//        if(notice.getId()==null){
+//            throw XException.DATA_ERROR;
+//        }
+//        noticeService.updateNotice(notice);
+//        return ResultVO.success(Map.of(
+//                "notices",noticeService.noticeLimit((page-1)*8,8),
+//                "count",noticeService.countNotice()));
+//    }
+//
+//    @Operation(summary = "删除公告,返回当前这页的新的")
+//    @DeleteMapping("notices/page/{page}/{nid}")
+//    public ResultVO deleteNotice(@PathVariable int page,@PathVariable String nid){
+//        noticeService.deleteNotice(nid);
+//        return ResultVO.success(Map.of(
+//                "notices",noticeService.noticeLimit((page-1)*8,8),
+//                "count",noticeService.countNotice()));
+//    }
+//    @Operation(summary = "批量删除公告,返回当前这页的新的")
+//    @DeleteMapping("notices/page/{page}/batch")
+//    public ResultVO deleteNotice(@PathVariable int page,@RequestBody List<String> ids){
+//        noticeService.batchDeleteNotice(ids);
+//        return ResultVO.success(Map.of(
+//                "notices",noticeService.noticeLimit((page-1)*8,8),
+//                "count",noticeService.countNotice()));
+//    }
     //
     @PostConstruct
     public void init() {
