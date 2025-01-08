@@ -24,6 +24,9 @@ public class UserService {
     public User getUser(String account){
         return userRepository.findByAccount(account);
     }
+    public User update(User user){
+        return userRepository.save(user);
+    }
 
     //根据id改密码
     public User reset(String id,String newPassword){

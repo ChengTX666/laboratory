@@ -21,6 +21,7 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
     @Modifying
     @Query("update reservation set course_name=:name where course_id=:id")
     void updateNameByCid(String id,String name);
+
     @Modifying
     @Query("update reservation set teacher_name=:name where teacher_id=:id")
     void updateNameByTid(String id,String name);
