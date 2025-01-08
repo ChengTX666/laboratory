@@ -43,6 +43,13 @@ public class AdminService {
     public User findByName(String name){
         return userRepository.findByName(name);
     }
+    public User findById(String id){
+        Optional<User> byId = userRepository.findById(id);
+        if (byId.isPresent()) {
+            return byId.get();
+        }
+        throw XException.DATA_ERROR;
+    }
     public User findByAccount(String account){
         return userRepository.findByAccount(account);
     }
@@ -120,7 +127,6 @@ public class AdminService {
     @Transactional
     public void addLab(Laboratory laboratory){
         laboratory.setId(null);
-
         try {
             laboratoryRepository.save(laboratory);
         }catch (Exception e){

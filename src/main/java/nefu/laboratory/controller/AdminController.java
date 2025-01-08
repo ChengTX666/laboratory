@@ -26,14 +26,19 @@ public class AdminController {
     private final NoticeService noticeService;
 //    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwicm9sZSI6ImFiYzEiLCJuYW1lIjoi546L5rOiIiwiZXhwIjoxNzM3NTkzMTQ0LCJpYXQiOjE3MzUwMDExODB9.dn8zJ9wXKoud_UOgSuUsPh71z6iZmJS_Ogxqm3LU8A8
 
+    @Operation(summary = "根据id查用户")
+    @GetMapping("search/id/{id}")
+    public ResultVO findById(@PathVariable String id){
+        return ResultVO.success(adminService.findById(id));
+    }
     @Operation(summary = "根据账号查询用户")
-    @GetMapping("search/account")
-    public ResultVO searchByAccount(String account){
+    @GetMapping("search/account/{account}")
+    public ResultVO searchByAccount(@PathVariable String account){
         return ResultVO.success(adminService.findByAccount(account));
     }
     @Operation(summary = "根据名字查询用户")
-    @GetMapping("search/name")
-    public ResultVO searchByName(String name){
+    @GetMapping("search/name/{name}")
+    public ResultVO searchByName(@PathVariable String name){
         return ResultVO.success(adminService.findByName(name));
     }
     //所有用户
@@ -77,7 +82,7 @@ public class AdminController {
         return ResultVO.success(adminService.userList());
     }
     //删除老师
-    @Operation(summary = "删除老师,并返回新的老师列表")
+    @Operation(summary = "删除老师,并返回新的老师列表(存在预约记录禁止删除)")
     @DeleteMapping("users/teacher/{id}")
     public ResultVO delUser(@PathVariable String id){
         adminService.delTeacher(id);
