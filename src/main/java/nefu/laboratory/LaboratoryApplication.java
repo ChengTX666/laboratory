@@ -12,8 +12,6 @@ public class LaboratoryApplication extends SpringBootServletInitializer {
         SpringApplication.run(LaboratoryApplication.class, args);
     }
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return super.configure(builder);
-    }
+
+
 }

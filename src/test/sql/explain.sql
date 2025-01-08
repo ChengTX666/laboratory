@@ -82,3 +82,6 @@ explain
 SELECT * from notice order by id desc;
 
 
+select * from reservation where week=2 and day=1 and period=3;
+
+
