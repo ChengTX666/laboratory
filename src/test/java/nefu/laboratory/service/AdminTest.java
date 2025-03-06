@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import nefu.laboratory.Service.AdminService;
 import nefu.laboratory.dox.User;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,6 +22,9 @@ public class AdminTest {
     private AdminService adminService;
 
     @Autowired
+    private RedissonClient redissonClient;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Test
@@ -31,5 +35,8 @@ public class AdminTest {
 
         adminService.batchInsertUsers(userList);
 
+    }
+    @Test
+    void redis(){
     }
 }
